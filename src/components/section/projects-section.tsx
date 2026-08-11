@@ -3,6 +3,11 @@ import { ProjectCard } from "@/components/project-card";
 
 const BLUR_FADE_DELAY = 0.04;
 
+type ProjectLink = {
+  type: string;
+  href: string;
+};
+
 type Project = {
   title: string;
   href: string;
@@ -10,10 +15,7 @@ type Project = {
   active: boolean;
   description: string;
   technologies: string[];
-  links: {
-    type: string;
-    href: string;
-  }[];
+  links: ProjectLink[];
   image: string;
   video: string;
 };
@@ -47,8 +49,9 @@ export default function ProjectsSection({
             </h2>
 
             <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed text-balance text-center">
-              I&apos;ve worked on a variety of projects, from simple websites
-              to complex web applications. Here are a few of my favorites.
+              I&apos;ve worked on a variety of projects, from websites and
+              automation systems to data dashboards and CRM workflows. Here
+              are a few of my projects.
             </p>
           </div>
         </div>
@@ -68,7 +71,11 @@ export default function ProjectsSection({
                 tags={project.technologies}
                 image={project.image}
                 video={project.video}
-                links={project.links}
+                links={project.links.map((link) => ({
+                  type: link.type,
+                  href: link.href,
+                  icon: null,
+                }))}
               />
             </BlurFade>
           ))}

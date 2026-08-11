@@ -1,21 +1,18 @@
 import { NextResponse } from "next/server";
-import { getPortfolioData } from "@/lib/portfolio";
+import { getServerPortfolioData } from "@/lib/server-portfolio";
 
 export async function GET() {
   try {
-    const data = await getPortfolioData();
+    const data = await getServerPortfolioData();
 
-    return NextResponse.json({
-      success: true,
-      data,
-    });
+    return NextResponse.json(data);
   } catch (error) {
-    console.error(error);
+    console.error("Test sheet error:", error);
 
     return NextResponse.json(
       {
-        success: false,
-        error: "Unable to load portfolio data",
+        error: "Failed to load portfolio data",
+        details: String(error),
       },
       { status: 500 }
     );
