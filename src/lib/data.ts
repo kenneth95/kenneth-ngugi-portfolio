@@ -34,7 +34,7 @@ export async function getPortfolioData() {
 
     url: profile.website,
 
-    location: profile.location,
+    location: "Nairobi, Kenya",
 
     locationLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       profile.location
@@ -44,7 +44,7 @@ export async function getPortfolioData() {
 
     summary: profile.about,
 
-    avatarUrl: profile.profile_image,
+    avatarUrl: "/me.png",
 
     skills,
 
