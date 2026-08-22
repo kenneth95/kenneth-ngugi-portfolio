@@ -1,47 +1,29 @@
 <div align="center">
-<img alt="Portfolio" src="https://github.com/dillionverma/portfolio/assets/16860528/57ffca81-3f0a-4425-b31d-094f61725455" width="90%">
+  <h1>Kenneth Ngugi — Portfolio</h1>
+  <p>Live at <a href="https://ngugi.co.ke">ngugi.co.ke</a></p>
 </div>
 
-# Portfolio [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdillionverma%2Fportfolio)
+# Kenneth Ngugi - Personal Portfolio
 
-Built with next.js, [shadcn/ui](https://ui.shadcn.com/), and [magic ui](https://magicui.design/), deployed on Vercel.
+Welcome to the source code for my personal portfolio, live at **[ngugi.co.ke](https://ngugi.co.ke)**. Built as a modern, high-performance developer portfolio using Next.js, [Shadcn/ui](https://ui.shadcn.com/), and [Magic UI](https://magicui.design/), and deployed on Vercel.
 
-# Features
+---
 
-- Setup only takes a few minutes by editing the [single config file](./src/data/resume.tsx)
-- Built using Next.js 14, React, Typescript, Shadcn/UI, TailwindCSS, Framer Motion, Magic UI
-- Includes a blog
-- Responsive for different devices
-- Optimized for Next.js and Vercel
+## ✨ Features & Architecture
 
-# Getting Started Locally
+- **Google Sheets Headless CMS:** All dynamic site content—including project data, experience, and metadata—is securely fetched and managed directly via a structured Google Sheet. This allows for instant, code-free updates without requiring a full redeployment.
+- **Modern Tech Stack:** Built with Next.js, React, TypeScript, Tailwind CSS, Framer Motion, and Magic UI components.
+- **Optimized Performance:** Features pre-rendered dynamic data fetching fine-tuned for Next.js and Vercel hosting.
+- **Fully Responsive:** Seamless layout optimized across mobile, tablet, and desktop viewports.
+- **Integrated Blog & Resume Sections:** Clean UI layouts for displaying technical background and writings.
 
-1. Clone this repository to your local machine:
+---
 
+## 🚀 Getting Started Locally
+
+If you want to run or adapt this codebase for your own projects, follow these steps:
+
+1. **Clone this repository:**
    ```bash
-   git clone https://github.com/dillionverma/portfolio
-   ```
-
-2. Move to the cloned directory
-
-   ```bash
-   cd portfolio
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   pnpm install
-   ```
-
-4. Start the local Server:
-
-   ```bash
-   pnpm dev
-   ```
-
-5. Open the [Config file](./src/data/resume.tsx) and make changes
-
-# License
-
-Licensed under the [MIT license](https://github.com/dillionverma/portfolio/blob/main/LICENSE.md).
+   git clone [https://github.com/kenneth95/kenneth-ngugi-portfolio.git](https://github.com/kenneth95/kenneth-ngugi-portfolio.git)
+   cd kenneth-ngugi-portfolio
