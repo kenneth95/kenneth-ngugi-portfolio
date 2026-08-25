@@ -145,3 +145,33 @@ export async function getSocialLinks() {
     .filter(isPublished)
     .sort((a, b) => Number(a.order) - Number(b.order));
 }
+
+export type BlogPost = {
+  slug: string;
+  title: string;
+  publishedAt: string;
+  updatedAt: string;
+  author: string;
+  summary: string;
+  image: string;
+  content: string;
+};
+
+export async function getPosts(): Promise<BlogPost[]> {
+  const rows = await getSheetData("Blog!A:J");
+
+  return rowsToObjects(rows)
+    .filter(isPublished)
+    .filter((item) => Boolean(item.slug))
+    .sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0))
+    .map((item) => ({
+      slug: item.slug,
+      title: item.title,
+      publishedAt: item.publishedAt,
+      updatedAt: item.updatedAt || item.publishedAt,
+      author: item.author || "",
+      summary: item.summary || "",
+      image: item.image || "",
+      content: item.content || "",
+    }));
+}

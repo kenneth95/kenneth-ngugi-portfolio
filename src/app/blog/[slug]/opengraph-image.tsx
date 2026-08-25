@@ -1,7 +1,7 @@
  
 
 import { ImageResponse } from "next/og";
-import { allPosts } from "content-collections";
+import { getServerBlogPost } from "@/lib/server-blog";
 import { DATA } from "@/data/resume";
 
 export const runtime = "edge";
@@ -15,20 +15,18 @@ export const contentType = "image/png";
 
 const getFontData = async () => {
     try {
-        const [cabinetGrotesk, clashDisplay] = await Promise.all([
-            fetch(
-                new URL(
-                    "../../../../public/fonts/CabinetGrotesk-Medium.ttf",
-                    import.meta.url
-                )
-            ).then((res) => res.arrayBuffer()),
-            fetch(
-                new URL(
-                    "../../../../public/fonts/ClashDisplay-Semibold.ttf",
-                    import.meta.url
-                )
-            ).then((res) => res.arrayBuffer()),
-        ]);
+        const cabinetGrotesk = await fetch(
+            new URL(
+                "../../../../public/fonts/CabinetGrotesk-Medium.ttf",
+                import.meta.url
+            )
+        ).then((res) => res.arrayBuffer());
+        const clashDisplay = await fetch(
+            new URL(
+                "../../../../public/fonts/ClashDisplay-Semibold.ttf",
+                import.meta.url
+            )
+        ).then((res) => res.arrayBuffer());
         return { cabinetGrotesk, clashDisplay };
     } catch (error) {
         console.error("Failed to load fonts:", error);
@@ -129,7 +127,7 @@ export default async function Image({
     try {
         const fontData = await getFontData();
         const { slug } = await params;
-        const post = allPosts.find((p) => p._meta.path.replace(/\.mdx$/, "") === slug);
+        const post = await getServerBlogPost(slug);
         const imageUrl = DATA.avatarUrl
             ? new URL(DATA.avatarUrl, DATA.url).toString()
             : undefined;

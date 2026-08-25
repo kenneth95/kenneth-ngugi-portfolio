@@ -13,14 +13,12 @@ export const contentType = "image/png";
 
 const getFontData = async () => {
     try {
-        const [cabinetGrotesk, clashDisplay] = await Promise.all([
-            fetch(
-                new URL("../../public/fonts/CabinetGrotesk-Medium.ttf", import.meta.url)
-            ).then((res) => res.arrayBuffer()),
-            fetch(
-                new URL("../../public/fonts/ClashDisplay-Semibold.ttf", import.meta.url)
-            ).then((res) => res.arrayBuffer()),
-        ]);
+        const cabinetGrotesk = await fetch(
+            new URL("../../public/fonts/CabinetGrotesk-Medium.ttf", import.meta.url)
+        ).then((res) => res.arrayBuffer());
+        const clashDisplay = await fetch(
+            new URL("../../public/fonts/ClashDisplay-Semibold.ttf", import.meta.url)
+        ).then((res) => res.arrayBuffer());
         return { cabinetGrotesk, clashDisplay };
     } catch (error) {
         console.error("Failed to load fonts:", error);
