@@ -11,7 +11,11 @@ Welcome to the source code for my personal portfolio, live at **[ngugi.co.ke](ht
 
 ## ✨ Features & Architecture
 
+<<<<<<< HEAD
 - **Google Sheets Headless CMS:** All dynamic site content—including project data, experience, metadata, and blog posts—is securely fetched and managed directly via a structured Google Sheet. This allows for instant, code-free updates without requiring a full redeployment.
+=======
+- **Google Sheets Headless CMS:** All dynamic site content—including project data, experience, and metadata—is securely fetched and managed directly via a structured Google Sheet. This allows for instant, code-free updates without requiring a full redeployment.
+>>>>>>> 8763a411640a1b5a95e457f4fba58658b14dfab4
 - **Modern Tech Stack:** Built with Next.js, React, TypeScript, Tailwind CSS, Framer Motion, and Magic UI components.
 - **Optimized Performance:** Features pre-rendered dynamic data fetching fine-tuned for Next.js and Vercel hosting.
 - **Fully Responsive:** Seamless layout optimized across mobile, tablet, and desktop viewports.
@@ -19,6 +23,7 @@ Welcome to the source code for my personal portfolio, live at **[ngugi.co.ke](ht
 
 ---
 
+<<<<<<< HEAD
 ## 📝 Managing Blog Posts via Google Sheets
 
 Blog posts live in a **`Blog`** tab in the same Google Sheet that powers the rest of the site (`GOOGLE_SHEET_ID`). Add one row per post with these columns, in this order:
@@ -44,6 +49,8 @@ A few notes:
 
 ---
 
+=======
+>>>>>>> 8763a411640a1b5a95e457f4fba58658b14dfab4
 ## 🚀 Getting Started Locally
 
 If you want to run or adapt this codebase for your own projects, follow these steps:
