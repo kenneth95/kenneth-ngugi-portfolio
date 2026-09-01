@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import {
@@ -6,6 +5,7 @@ import {
   TimelineItem,
   TimelineConnectItem,
 } from "@/components/timeline";
+import { LogoImage } from "@/components/logo-image";
 
 type HackathonLink = {
   title: string;
@@ -71,15 +71,11 @@ export default function HackathonsSection({
               className="w-full flex items-start justify-between gap-10"
             >
               <TimelineConnectItem className="flex items-start justify-center">
-                {hackathon.image ? (
-                  <img
-                    src={hackathon.image}
-                    alt={hackathon.title}
-                    className="size-10 bg-card z-10 shrink-0 overflow-hidden p-1 border rounded-full shadow ring-2 ring-border object-contain flex-none"
-                  />
-                ) : (
-                  <div className="size-10 bg-card z-10 shrink-0 overflow-hidden p-1 border rounded-full shadow ring-2 ring-border flex-none" />
-                )}
+                <LogoImage
+                  src={hackathon.image}
+                  alt={hackathon.title}
+                  className="size-10 bg-card"
+                />
               </TimelineConnectItem>
 
               <div className="flex flex-1 flex-col justify-start gap-2 min-w-0">

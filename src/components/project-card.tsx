@@ -8,16 +8,16 @@ import Link from "next/link";
 import { useState } from "react";
 import Markdown from "react-markdown";
 
-function ProjectImage({ src, alt }: { src: string; alt: string }) {
+const DEFAULT_PHOTO = "/default-photo.svg";
+
+function ProjectImage({ src, alt }: { src?: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
 
-  if (!src || imageError) {
-    return <div className="w-full h-48 bg-muted" />;
-  }
+  const resolvedSrc = !src || imageError ? DEFAULT_PHOTO : src;
 
   return (
     <img
-      src={src}
+      src={resolvedSrc}
       alt={alt}
       className="w-full h-48 object-cover"
       onError={() => setImageError(true)}
@@ -54,35 +54,49 @@ export function ProjectCard({
   links,
   className,
 }: Props) {
+  const hasLink = Boolean(href) && href !== "#";
+
+  const openProject = () => {
+    if (hasLink) {
+      window.open(href, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <div
+      onClick={hasLink ? openProject : undefined}
+      onKeyDown={
+        hasLink
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openProject();
+              }
+            }
+          : undefined
+      }
+      role={hasLink ? "link" : undefined}
+      tabIndex={hasLink ? 0 : undefined}
+      aria-label={hasLink ? `Open ${title}` : undefined}
       className={cn(
-        "flex flex-col h-full border border-border rounded-xl overflow-hidden hover:ring-2 cursor-pointer hover:ring-muted transition-all duration-200",
+        "flex flex-col h-full border border-border rounded-xl overflow-hidden transition-all duration-200",
+        hasLink && "hover:ring-2 hover:ring-muted cursor-pointer",
         className
       )}
     >
       <div className="relative shrink-0">
-        <Link
-          href={href || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
-          {video ? (
-            <video
-              src={video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-48 object-cover"
-            />
-          ) : image ? (
-            <ProjectImage src={image} alt={title} />
-          ) : (
-            <div className="w-full h-48 bg-muted" />
-          )}
-        </Link>
+        {video ? (
+          <video
+            src={video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-48 object-cover"
+          />
+        ) : (
+          <ProjectImage src={image} alt={title} />
+        )}
         {links && links.length > 0 && (
           <div className="absolute top-2 right-2 flex flex-wrap gap-2">
             {links.map((link, idx) => (
@@ -111,15 +125,12 @@ export function ProjectCard({
             <h3 className="font-semibold">{title}</h3>
             <time className="text-xs text-muted-foreground">{dates}</time>
           </div>
-          <Link
-            href={href || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
-            aria-label={`Open ${title}`}
-          >
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
-          </Link>
+          {hasLink && (
+            <ArrowUpRight
+              className="h-4 w-4 text-muted-foreground shrink-0"
+              aria-hidden
+            />
+          )}
         </div>
         <div className="text-xs flex-1 prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
           <Markdown>{description}</Markdown>

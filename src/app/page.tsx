@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,6 +7,7 @@ import ContactSection from "@/components/section/contact-section";
 import HackathonsSection from "@/components/section/hackathons-section";
 import ProjectsSection from "@/components/section/projects-section";
 import WorkSection from "@/components/section/work-section";
+import { LogoImage } from "@/components/logo-image";
 import { ArrowUpRight } from "lucide-react";
 import { getServerPortfolioData } from "@/lib/server-portfolio";
 
@@ -121,15 +120,10 @@ export default async function Page() {
                   className="flex items-center gap-x-3 justify-between group"
                 >
                   <div className="flex items-center gap-x-3 flex-1 min-w-0">
-                    {education.logoUrl ? (
-                      <img
-                        src={education.logoUrl}
-                        alt={education.school}
-                        className="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border overflow-hidden object-contain flex-none"
-                      />
-                    ) : (
-                      <div className="size-8 md:size-10 p-1 border rounded-full shadow ring-2 ring-border bg-muted flex-none" />
-                    )}
+                    <LogoImage
+                      src={education.logoUrl}
+                      alt={education.school}
+                    />
 
                     <div className="flex-1 min-w-0 flex flex-col gap-0.5">
                       <div className="font-semibold leading-none flex items-center gap-2">
