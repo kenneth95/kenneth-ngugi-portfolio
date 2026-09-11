@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     template: `%s | ${DATA.name}`,
   },
   description: DATA.description,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: `${DATA.name}`,
     description: DATA.description,
@@ -61,6 +64,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const socialUrls = Object.values(DATA.contact.social || {})
+    .map((entry) =>
+      typeof entry === "object" && entry && "url" in entry
+        ? (entry as { url?: string }).url
+        : undefined
+    )
+    .filter((url): url is string => Boolean(url && url.startsWith("http")));
+
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: DATA.name,
+    url: DATA.url,
+    description: DATA.description,
+    sameAs: socialUrls,
+  }).replace(/</g, "\\u003c");
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -70,6 +90,11 @@ export default function RootLayout({
           geistMono.variable
         )}
       >
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
         <ThemeProvider attribute="class" defaultTheme="light">
           <TooltipProvider delayDuration={0}>
             <div className="absolute inset-0 top-0 left-0 right-0 h-[100px] overflow-hidden z-0">

@@ -7,22 +7,53 @@ import { ChevronRight } from "lucide-react";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Thoughts on software development, life, and more.",
-  openGraph: {
-    title: "Blog",
-    description: "Thoughts on software development, life, and more.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog",
-    description: "Thoughts on software development, life, and more.",
-  },
-};
-
 const PAGE_SIZE = 5;
 const BLUR_FADE_DELAY = 0.04;
+
+const BASE_TITLE = "Blog";
+const BASE_DESCRIPTION = "Thoughts on software development, life, and more.";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}): Promise<Metadata> {
+  const { page: pageParam } = await searchParams;
+  const sortedPosts = await getAllBlogPosts();
+  const totalPages = Math.max(
+    1,
+    Math.ceil(sortedPosts.length / PAGE_SIZE)
+  );
+  const currentPage = normalizePage(pageParam, totalPages);
+  const isFirstPage = currentPage <= 1;
+
+  return {
+    title: isFirstPage ? BASE_TITLE : `${BASE_TITLE} — Page ${currentPage}`,
+    description: BASE_DESCRIPTION,
+    alternates: {
+      // Every paginated page points its canonical at page 1 (with no
+      // query string) — pages 2+ are thin/duplicate variants of the same
+      // listing content, so this avoids Google treating them as separate
+      // pages worth indexing on their own.
+      canonical: "/blog",
+    },
+    // Only the first page is indexed; subsequent pages are still fully
+    // crawlable (follow: true) so link equity flows to each post, but
+    // aren't shown as separate search results themselves.
+    robots: isFirstPage
+      ? { index: true, follow: true }
+      : { index: false, follow: true },
+    openGraph: {
+      title: BASE_TITLE,
+      description: BASE_DESCRIPTION,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: BASE_TITLE,
+      description: BASE_DESCRIPTION,
+    },
+  };
+}
 
 export default async function BlogPage({
   searchParams,

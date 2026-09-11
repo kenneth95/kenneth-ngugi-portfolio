@@ -9,12 +9,35 @@ import ProjectsSection from "@/components/section/projects-section";
 import WorkSection from "@/components/section/work-section";
 import { LogoImage } from "@/components/logo-image";
 import { ArrowUpRight } from "lucide-react";
-import { getServerPortfolioData } from "@/lib/server-portfolio";
+import { getPortfolioData } from "@/lib/data";
 
 const BLUR_FADE_DELAY = 0.04;
 
+// Re-fetches Google Sheet data at most once per hour and serves a cached,
+// statically-rendered page in between. This also means the page is no
+// longer forced into fully-dynamic, per-request rendering (see note below),
+// which makes it faster and more reliable for both visitors and search
+// engine crawlers.
+export const revalidate = 3600;
+
 export default async function Page() {
-  const DATA = await getServerPortfolioData();
+  // Calls the data layer directly instead of making an HTTP request to our
+  // own /api/portfolio route. The previous approach (via
+  // getServerPortfolioData in server-portfolio.ts) called next/headers()
+  // to build a self-referential fetch URL, which had two costs: it forced
+  // this entire page out of static/ISR rendering into fully dynamic
+  // per-request rendering, and it added an extra network round-trip to
+  // itself on every single page load. On serverless hosting that round
+  // trip can cold-start a second function invocation, and under load or
+  // any latency from the Google Sheets API, this was a plausible cause of
+  // intermittent failures/timeouts — which can show up as data (including
+  // photos) simply not appearing. There was no technical reason for the
+  // indirection here (unlike the blog's opengraph-image routes, which
+  // genuinely need it because they run on the Edge runtime, where the
+  // Node-only googleapis client can't run) — this route always ran on the
+  // Node runtime, so calling the data layer directly is safe and removes
+  // both problems.
+  const DATA = await getPortfolioData();
 
   return (
     <main className="min-h-dvh flex flex-col gap-14 relative">
@@ -24,6 +47,7 @@ export default async function Page() {
           <div className="gap-2 gap-y-6 flex flex-col md:flex-row justify-between">
             <div className="gap-2 flex flex-col order-2 md:order-1">
               <BlurFadeText
+                as="h1"
                 delay={BLUR_FADE_DELAY}
                 className="text-3xl font-semibold tracking-tighter sm:text-4xl lg:text-5xl"
                 yOffset={8}
@@ -31,6 +55,7 @@ export default async function Page() {
               />
 
               <BlurFadeText
+                as="p"
                 className="text-muted-foreground max-w-[600px] md:text-lg lg:text-xl"
                 delay={BLUR_FADE_DELAY}
                 text={DATA.description}

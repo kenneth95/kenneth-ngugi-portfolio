@@ -16,6 +16,12 @@ interface BlurFadeTextProps {
   delay?: number;
   yOffset?: number;
   animateByCharacter?: boolean;
+  // The semantic HTML tag to render the wrapping element as. Purely
+  // structural — does not affect layout or styling — but matters for SEO
+  // and accessibility (e.g. a page's main heading should be an <h1>, not
+  // an unstyled <div>). Defaults to "div" to preserve existing behavior
+  // anywhere this isn't explicitly set.
+  as?: "div" | "h1" | "h2" | "h3" | "p" | "span";
 }
 const BlurFadeText = ({
   text,
@@ -26,6 +32,7 @@ const BlurFadeText = ({
   delay = 0,
   yOffset = 8,
   animateByCharacter = false,
+  as: Tag = "div",
 }: BlurFadeTextProps) => {
   const defaultVariants: Variants = {
     hidden: { y: -yOffset, opacity: 0, filter: "blur(8px)" },
@@ -36,7 +43,7 @@ const BlurFadeText = ({
 
   if (animateByCharacter) {
     return (
-      <div className="flex">
+      <Tag className="flex">
         {characters.map((char, i) => {
           const charVariants: Variants = {
             hidden: { y: -yOffset, opacity: 0, filter: "blur(8px)" },
@@ -60,12 +67,12 @@ const BlurFadeText = ({
             </motion.span>
           );
         })}
-      </div>
+      </Tag>
     );
   }
 
   return (
-    <div className="flex">
+    <Tag className="flex">
       <motion.span
         initial="hidden"
         animate="visible"
@@ -79,7 +86,7 @@ const BlurFadeText = ({
       >
         {text}
       </motion.span>
-    </div>
+    </Tag>
   );
 };
 
