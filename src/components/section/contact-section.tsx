@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Mail, Phone } from "lucide-react";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 
 type SocialLink = {
@@ -16,6 +17,10 @@ type Contact = {
 type ContactSectionProps = {
   contact: Contact;
 };
+
+const EMAIL = "ngugikenneth136@gmail.com";
+const PHONE = "+254716014944";
+const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL}`;
 
 export default function ContactSection({
   contact,
@@ -71,6 +76,25 @@ export default function ContactSection({
             </>
           )}
         </p>
+
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-sm">
+          <a
+            href={GMAIL_COMPOSE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+          >
+            <Mail className="size-4" />
+            {EMAIL}
+          </a>
+          <a
+            href={`tel:${PHONE}`}
+            className="inline-flex items-center gap-2 hover:underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+          >
+            <Phone className="size-4" />
+            {PHONE}
+          </a>
+        </div>
       </div>
     </div>
   );

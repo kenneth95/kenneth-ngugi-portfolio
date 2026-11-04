@@ -41,7 +41,7 @@ export const DATA = {
     { href: "/blog", icon: NotebookIcon, label: "Blog" },
   ],
   contact: {
-    email: "info@ngugi.co.ke",
+    email: "ngugikenneth136@gmail.com",
     tel: "+254716014944",
     social: {
       GitHub: {
@@ -73,7 +73,7 @@ export const DATA = {
       },
       email: {
         name: "Send Email",
-        url: "info@ngugi.co.ke",
+        url: "https://mail.google.com/mail/?view=cm&fs=1&to=ngugikenneth136@gmail.com",
         icon: Icons.email,
 
         navbar: true,
